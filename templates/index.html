@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Emotion Detector – Watson NLP</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f5f5f0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      color: #1a1a1a;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e8e8e4;
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.3px;
+    }
+
+    .subtitle {
+      font-size: 0.875rem;
+      color: #888;
+      margin-bottom: 1.75rem;
+    }
+
+    /* Input row */
+    .input-row {
+      display: flex;
+      gap: 0.6rem;
+      margin-bottom: 1.25rem;
+    }
+
+    #inputText {
+      flex: 1;
+      padding: 0.65rem 0.9rem;
+      border: 1px solid #d4d4ce;
+      border-radius: 8px;
+      background: #fafaf8;
+      color: #111;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    #inputText::placeholder { color: #bbb; }
+    #inputText:focus { border-color: #999; background: #fff; }
+
+    button {
+      padding: 0.65rem 1.2rem;
+      border-radius: 8px;
+      border: 1px solid #d4d4ce;
+      background: #ffffff;
+      color: #111;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    button:hover { background: #f0f0ec; border-color: #bbb; }
+    button:active { background: #e8e8e4; }
+
+    #analyseBtn {
+      background: #111;
+      color: #fff;
+      border-color: #111;
+    }
+    #analyseBtn:hover { background: #333; border-color: #333; }
+    #analyseBtn:disabled { background: #999; border-color: #999; cursor: not-allowed; }
+
+    /* Result box */
+    #result {
+      min-height: 64px;
+      background: #fafaf8;
+      border: 1px solid #e8e8e4;
+      border-radius: 8px;
+      padding: 0.9rem 1rem;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    /* Emotion bars */
+    #bars { margin-top: 1.5rem; display: none; }
+
+    .bar-row { margin-bottom: 0.75rem; }
+
+    .bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: #666;
+      margin-bottom: 0.3rem;
+      text-transform: capitalize;
+    }
+
+    .bar-track {
+      height: 8px;
+      background: #ededea;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: #111;
+      transition: width 0.5s ease;
+    }
+
+    .dominant-tag {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.3rem 0.9rem;
+      border-radius: 99px;
+      border: 1px solid #d4d4ce;
+      background: #f5f5f0;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #111;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Divider */
+    hr { border: none; border-top: 1px solid #e8e8e4; margin: 1.25rem 0; }
+
+    /* Spinner */
+    .spinner {
+      display: inline-block;
+      width: 14px; height: 14px;
+      border: 2px solid #ccc;
+      border-top-color: #111;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 0.4rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h1>Emotion Detector</h1>
+  <p class="subtitle">Powered by IBM Watson NLP &mdash; enter any sentence below</p>
+
+  <div class="input-row">
+    <input id="inputText" type="text" placeholder="e.g. I am really glad this happened" autocomplete="off" />
+    <button id="analyseBtn" onclick="runDetection()">Analyse</button>
+    <button id="clearBtn" onclick="clearAll()">Clear</button>
+  </div>
+
+  <div id="result">Results will appear here…</div>
+
+  <div id="bars"></div>
+</div>
+
+<script src="{{ url_for('static', filename='mywebscript.js') }}"></script>
+</body>
+</html>
